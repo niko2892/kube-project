@@ -1,0 +1,39 @@
+name: Create Yandex Cloud Folder with Terraform
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-folder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure Terraform CLI
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.3.7
+
+      - name: Configure Yandex Cloud credentials
+        uses: yandex-cloud/actions/setup-yandex-cloud@v1
+        with:
+          token: ${{ secrets.YANDEX_CLOUD_TOKEN }}  # Замените на имя секрета с токеном Yandex Cloud
+
+      - name: Initialize Terraform
+        run: terraform init -input=false
+
+      - name: Apply Terraform changes
+        run: terraform apply -auto-approve
+
+      - name: Output Terraform resources
+        run: terraform output
+
+      - name: Cleanup Terraform
+        run: terraform destroy -auto-approve
+
+      - name: Upload Terraform state
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-state
+          path: terraform.tfstate
