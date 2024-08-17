@@ -38,6 +38,7 @@ provider "yandex" {
   zone = "${var.zone}"
 }
 
+
 #создание сети
 resource "yandex_vpc_network" "app-network" {
   name        = "app-network"
@@ -46,40 +47,40 @@ resource "yandex_vpc_network" "app-network" {
     tf-label    = "tf-label-value"
     empty-label = ""
   }
-  depends_on = [yandex_resourcemanager_folder.app-folder]
 }
 
-#Создайте подсети в зонах доступности, где будут созданы кластер Managed Service for Kubernetes и группа узлов.
 
+#Создайте подсети в зонах доступности, где будут созданы кластер Managed Service for Kubernetes и группа узлов.
 resource "yandex_vpc_subnet" "app-subnet-a" {
   name           = "kuber-subnet-a"
   v4_cidr_blocks = ["10.0.0.0/26"]
   zone           = "ru-central1-a"
   folder_id      = "${var.folder_id}"
   network_id     = yandex_vpc_network.app-network.id
-  depends_on = [yandex_resourcemanager_folder.app-folder, yandex_vpc_network.app-network]
+  depends_on = [yandex_vpc_network.app-network]
 }
+
 
 #создание сервисного аккаунта
 resource "yandex_iam_service_account" "sa" {
   name        = "kube-sa"
   folder_id   = "${var.folder_id}"
-  depends_on = [yandex_resourcemanager_folder.app-folder]
 }
+
 
 #назначение ролей сервисному аккаунту:
 resource "yandex_resourcemanager_folder_iam_member" "images-puller" {
   folder_id   = "${var.folder_id}"
   role        = "container-registry.images.puller"
   member      = "serviceAccount:${yandex_iam_service_account.sa.id}"
-  depends_on  = [yandex_resourcemanager_folder.app-folder, yandex_iam_service_account.sa]
+  depends_on  = [yandex_iam_service_account.sa]
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "clusters-agent" {
   folder_id   = "${var.folder_id}"
   role        = "k8s.clusters.agent"
   member      = "serviceAccount:${yandex_iam_service_account.sa.id}"
-  depends_on  = [yandex_resourcemanager_folder.app-folder, yandex_iam_service_account.sa]
+  depends_on  = [yandex_iam_service_account.sa]
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "vpc-public-admin" {
@@ -87,7 +88,7 @@ resource "yandex_resourcemanager_folder_iam_member" "vpc-public-admin" {
   folder_id   = "${var.folder_id}"
   role      = "vpc.publicAdmin"
   member      = "serviceAccount:${yandex_iam_service_account.sa.id}"
-  depends_on  = [yandex_resourcemanager_folder.app-folder, yandex_iam_service_account.sa]
+  depends_on  = [yandex_iam_service_account.sa]
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
@@ -95,8 +96,9 @@ resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
   folder_id   = "${var.folder_id}"
   role      = "kms.keys.encrypterDecrypter"
   member      = "serviceAccount:${yandex_iam_service_account.sa.id}"
-  depends_on  = [yandex_resourcemanager_folder.app-folder, yandex_iam_service_account.sa]
+  depends_on  = [yandex_iam_service_account.sa]
 }
+
 
 #создание кластера kubernetes
 resource "yandex_kubernetes_cluster" "kuber_cluster" {
@@ -120,6 +122,7 @@ resource "yandex_kubernetes_cluster" "kuber_cluster" {
      yandex_resourcemanager_folder_iam_member.encrypterDecrypter
    ]
 }
+
 
 #создание группы узлов https://yandex.cloud/ru/docs/managed-kubernetes/operations/node-group/node-group-create#terraform_1
 resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
