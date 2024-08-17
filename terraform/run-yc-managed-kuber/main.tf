@@ -43,7 +43,6 @@ provider "yandex" {
 #создание сети
 resource "yandex_vpc_network" "app-network" {
   name        = "app-network"
-  folder_id = "${var.folder_id}"
   labels = {
     tf-label    = "tf-label-value"
     empty-label = ""
@@ -65,7 +64,6 @@ resource "yandex_vpc_subnet" "app-subnet-a" {
 #создание сервисного аккаунта
 resource "yandex_iam_service_account" "sa" {
   name        = "kube-sa"
-  folder_id   = "${var.folder_id}"
 }
 
 
