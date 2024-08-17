@@ -3,20 +3,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  create-folder:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v2
 
       - name: Run Terraform init
         run: cd /home/runner/work/kube-project/kube-project/terraform && terraform init
 
       - name: Run Terraform plan
-        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform plan -out=tfplan
+        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform plan -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" -out=tfplan
 
       - name: Approve Terraform plan (manual)
         uses: trstringer/manual-approval@v1
@@ -26,7 +26,7 @@ jobs:
           approvals: 1
 
       - name: Apply Terraform plan
-        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform apply "tfplan"
+        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform apply -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" "tfplan"
 
       - name: Output Terraform state
         run: cd /home/runner/work/kube-project/kube-project/terraform && terraform show -json > terraform.json
