@@ -18,12 +18,8 @@ jobs:
       - name: Run Terraform plan
         run: cd /home/runner/work/kube-project/kube-project/terraform && terraform plan -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" -out=tfplan
 
-      - name: Approve Terraform plan (manual)
-        uses: trstringer/manual-approval@v1
-        with:
-          title: "Approve Terraform plan?"
-          body: "Review the changes proposed in the Terraform plan."
-          approvals: 1
+      - name: Run Terraform validate
+        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform validate "tfplan"
 
       - name: Apply Terraform plan
         run: cd /home/runner/work/kube-project/kube-project/terraform && terraform apply -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" "tfplan"
