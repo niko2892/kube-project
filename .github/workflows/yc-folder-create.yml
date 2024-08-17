@@ -5,6 +5,9 @@ on:
 jobs:
   create-folder:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: /home/runner/work/kube-project/kube-project/terraform
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -13,16 +16,16 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Run Terraform init
-        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform init
+        run: terraform init
 
       - name: Run Terraform plan
-        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform plan -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" -out=tfplan
+        run: terraform plan -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" -out=tfplan
 
       - name: Run Terraform validate
-        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform validate "tfplan"
+        run: terraform validate
 
       - name: Apply Terraform plan
-        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform apply -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" "tfplan"
-
+        run: terraform apply -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" "tfplan"
+        
       - name: Output Terraform state
-        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform show -json > terraform.json
+        run: terraform show -json > terraform.json
