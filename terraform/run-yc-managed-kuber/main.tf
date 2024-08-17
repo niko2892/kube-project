@@ -36,12 +36,12 @@ terraform {
 provider "yandex" {
   token ="${var.token}"
   zone = "${var.zone}"
-  folder_id = "${var.folder_id}"
 }
 
 
 #создание сети
 resource "yandex_vpc_network" "app-network" {
+  folder_id = "${var.folder_id}"
   name        = "app-network"
   labels = {
     tf-label    = "tf-label-value"
@@ -63,6 +63,7 @@ resource "yandex_vpc_subnet" "app-subnet-a" {
 
 #создание сервисного аккаунта
 resource "yandex_iam_service_account" "sa" {
+  folder_id = "${var.folder_id}"
   name        = "kube-sa"
 }
 
