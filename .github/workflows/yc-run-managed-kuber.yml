@@ -19,7 +19,7 @@ jobs:
         run: terraform init
 
       - name: Run Terraform plan
-        run: terraform plan -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" -var="folder_id=${{ secrets.FOLDER_ID }}" -out=tfplan
+        run: terraform plan -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" -var="folder_id=${{ secrets.YC_FOLDER_ID }}" -out=tfplan
 
       - name: Run Terraform validate
         run: terraform validate
