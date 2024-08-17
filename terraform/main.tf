@@ -37,3 +37,8 @@ resource "yandex_resourcemanager_folder" "app-folder" {
     cloud_id    = "${var.cloud_id}"
     name        = "${var.cloud_catalog_title}"
 }
+
+#вывод id облака
+output "folder_id" {
+  value = yandex_resourcemanager_folder.app-folder.id
+}
