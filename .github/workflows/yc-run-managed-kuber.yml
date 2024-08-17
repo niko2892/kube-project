@@ -1,13 +1,13 @@
-name: Create Yandex Cloud Folder
+name: Run managed kubernetes cluster in Yandex.Cloud
 on:
   workflow_dispatch:
 
 jobs:
-  create-folder:
+  run-kuber-cluster:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: /home/runner/work/kube-project/kube-project/terraform/create-yc-folder
+        working-directory: /home/runner/work/kube-project/kube-project/terraform/run-yc-managed-kuber
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,7 +19,7 @@ jobs:
         run: terraform init
 
       - name: Run Terraform plan
-        run: terraform plan -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" -out=tfplan
+        run: terraform plan -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" -var="folder_id=${{ secrets.FOLDER_ID }}" -out=tfplan
 
       - name: Run Terraform validate
         run: terraform validate

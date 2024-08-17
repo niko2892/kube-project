@@ -10,7 +10,7 @@ variable "token" {
 
 variable "cloud_id" {
   type = string
-  description = "id каталога"
+  description = "id облака"
 }
 
 variable "zone" {
