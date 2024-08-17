@@ -1,4 +1,4 @@
-name: Run Terraform
+name: Create Yandex Cloud Folder
 on:
   workflow_dispatch:
 
@@ -19,7 +19,7 @@ jobs:
         run: terraform plan -out=tfplan
 
       - name: Approve Terraform plan (manual)
-        uses: actions/approval@v1
+        uses: trstringer/manual-approval@v1
         with:
           title: "Approve Terraform plan?"
           body: "Review the changes proposed in the Terraform plan."
