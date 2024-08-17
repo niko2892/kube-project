@@ -1,17 +1,17 @@
-# variable "cloud_catalog_title" {
-#   type = string
-#   description = "Название каталога"
-# }
+variable "cloud_catalog_title" {
+  type = string
+  description = "Название каталога"
+}
 
 variable "token" {
   type = string
   description = "токен"
 }
 
-# variable "cloud_id" {
-#   type = string
-#   description = "id облака"
-# }
+variable "cloud_id" {
+  type = string
+  description = "id облака"
+}
 
 variable "folder_id" {
   type = string
