@@ -9,17 +9,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: go to tarraform location dir
-        run: cd /home/runner/work/kube-project/kube-project/terraform
-        
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
       - name: Run Terraform init
-        run: terraform init
+        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform init
 
       - name: Run Terraform plan
-        run: terraform plan -out=tfplan
+        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform plan -out=tfplan
 
       - name: Approve Terraform plan (manual)
         uses: trstringer/manual-approval@v1
@@ -29,7 +26,7 @@ jobs:
           approvals: 1
 
       - name: Apply Terraform plan
-        run: terraform apply "tfplan"
+        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform apply "tfplan"
 
       - name: Output Terraform state
-        run: terraform show -json > terraform.json
+        run: cd /home/runner/work/kube-project/kube-project/terraform && terraform show -json > terraform.json
