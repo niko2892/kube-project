@@ -7,15 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: check dir
-        run: |
-          pwd
-          ls -la
+      - name: go to tarraform location dir
+        run: cd /home/runner/work/kube-project/kube-project/terraform
         
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
 
       - name: Run Terraform init
         run: terraform init
