@@ -25,7 +25,7 @@ jobs:
         run: terraform validate
 
       - name: Apply Terraform plan
-        run: terraform apply -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" "tfplan"
+        run: terraform apply "tfplan"
         
       - name: Output Terraform state
         run: terraform show -json > terraform.json
