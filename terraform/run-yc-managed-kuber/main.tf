@@ -36,7 +36,7 @@ terraform {
 provider "yandex" {
   token ="${var.token}"
   zone = "${var.zone}"
-  folder_id = "${vars.folder_id}"
+  folder_id = "${var.folder_id}"
 }
 
 
