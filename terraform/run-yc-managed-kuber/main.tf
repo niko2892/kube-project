@@ -41,7 +41,7 @@ provider "yandex" {
 
 #создание сети
 resource "yandex_vpc_network" "app-network" {
-  folder_id = "${var.folder_id}"
+  folder_id = var.folder_id
   name        = "app-network"
   labels = {
     tf-label    = "tf-label-value"
