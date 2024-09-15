@@ -149,7 +149,7 @@ resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
   }
   scale_policy {
     fixed_scale {
-      size = 1
+      size = 3
     }
   }
 }
