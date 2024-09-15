@@ -140,7 +140,7 @@ resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
     resources {
       cores         = 2
       core_fraction = 5
-      memory        = 8
+      memory        = 4
     }
     boot_disk {
       size = 32
