@@ -13,6 +13,12 @@ jobs:
         with:
           username: "${{ vars.DOCKERHUB_USERNAME }}"
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+  checkout-code:
+    runs-on: ubuntu-latest
+    steps:
+       - name: Checkout code
+         uses: actions/checkout@v3
+  
   build-images:
     runs-on: ubuntu-latest
     #defaults:
@@ -21,14 +27,12 @@ jobs:
     steps:
       - name: Pwd
         run: pwd && ls -la && ls -l  /home/runner/work/ && ls -l /home/runner/work/kube-project && ls -l /home/runner/work/kube-projectkube-project
-      - name: Checkout code
-        uses: actions/checkout@v3
+    
+      #- name: Build Image
+      #  run: docker build -t nvyakimov/adservice:1.0.0 .
 
-      - name: Build Image
-        run: docker build -t nvyakimov/adservice:1.0.0 .
-
-      - name: Push Image
-        run: docker push
+      #- name: Push Image
+       # run: docker push
   deploy-app:
     runs-on: ubuntu-latest
     defaults:
