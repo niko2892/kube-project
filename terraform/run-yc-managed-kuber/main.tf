@@ -60,34 +60,6 @@ resource "yandex_vpc_subnet" "app-subnet-a" {
   depends_on = [yandex_vpc_network.app-network]
 }
 
-# resource "yandex_vpc_security_group" "k8s-public-services" {
-#   name        = "k8s-public-services"
-#   description = "Правила группы разрешают подключение к сервисам из интернета. Примените правила только для групп узлов."
-#   network_id  = yandex_vpc_network.app-network.id
-#   ingress {
-#     protocol          = "TCP"
-#     description       = "Правило разрешает проверки доступности с диапазона адресов балансировщика нагрузки. Нужно для работы отказоустойчивого кластера Managed Service for Kubernetes и сервисов балансировщика."
-#     predefined_target = "loadbalancer_healthchecks"
-#     from_port         = 0
-#     to_port           = 65535
-#   }
-#   ingress {
-#     protocol          = "ANY"
-#     description       = "Правило разрешает взаимодействие мастер-узел и узел-узел внутри группы безопасности."
-#     predefined_target = "self_security_group"
-#     from_port         = 0
-#     to_port           = 65535
-#   }
-#   egress {
-#     protocol          = "ANY"
-#     description       = "Правило разрешает весь исходящий трафик. Узлы могут связаться с Yandex Container Registry, Yandex Object Storage, Docker Hub и т. д."
-#     v4_cidr_blocks    = ["0.0.0.0/0"]
-#     from_port         = 0
-#     to_port           = 65535
-#   }
-# }
-
-
 #создание сервисного аккаунта
 resource "yandex_iam_service_account" "sa" {
   folder_id = "${var.folder_id}"
@@ -168,7 +140,7 @@ resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
     resources {
       cores         = 2
       core_fraction = 5
-      memory        = 8
+      memory        = 4
     }
     boot_disk {
       size = 32
@@ -187,6 +159,7 @@ output "kuber_cluster_external_v4_endpoint" {
   value = yandex_kubernetes_cluster.kuber_cluster.master[0].external_v4_endpoint
 }
 
-output "kuber_cluster_public_ip" {
-  value = yandex_kubernetes_cluster.kuber_cluster.master[0].public_ip
+output "kuber_cluster_id" {
+  description = "kubernetes cluster id"
+  value       = yandex_kubernetes_cluster.kuber_cluster.id
 }
