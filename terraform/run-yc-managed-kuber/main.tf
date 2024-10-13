@@ -60,7 +60,6 @@ resource "yandex_vpc_subnet" "app-subnet-a" {
   depends_on = [yandex_vpc_network.app-network]
 }
 
-
 #создание сервисного аккаунта
 resource "yandex_iam_service_account" "sa" {
   folder_id = "${var.folder_id}"
@@ -133,6 +132,7 @@ resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
     network_acceleration_type = "standard"
     network_interface {
       subnet_ids         = [yandex_vpc_subnet.app-subnet-a.id]
+      nat                = true
     }
     container_runtime {
       type = "containerd"
@@ -159,6 +159,7 @@ output "kuber_cluster_external_v4_endpoint" {
   value = yandex_kubernetes_cluster.kuber_cluster.master[0].external_v4_endpoint
 }
 
-output "kuber_cluster_public_ip" {
-  value = yandex_kubernetes_cluster.kuber_cluster.master[0].public_ip
+output "kuber_cluster_id" {
+  description = "kubernetes cluster id"
+  value       = yandex_kubernetes_cluster.kuber_cluster.id
 }
