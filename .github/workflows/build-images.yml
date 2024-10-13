@@ -15,10 +15,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
   build-images:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: /home/runner/work/kube-project/kube-project/microservices-demo/src/adservice
+    #defaults:
+    #  run:
+    #    working-directory: /home/runner/work/kube-project/kube-project/microservices-demo/src/adservice
     steps:
+      - name: Pwd
+        run: pwd && ls -la && ls -l  /home/runner/work/ && ls -l /home/runner/work/kube-project && ls -l /home/runner/work/kube-projectkube-project
       - name: Checkout code
         uses: actions/checkout@v3
 
