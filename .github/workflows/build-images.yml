@@ -21,9 +21,15 @@ jobs:
     #push
        - name: Push Image
          run: docker push nvyakimov/adservice:1.0.0
+       - name: create ns
+         run:  kubectl --kubeconfig "${{ vars.MINIKUBE_CONFIG }}" create ns adservice
+       - name: deploy
+         run:  kubectl --kubeconfig "${{ vars.MINIKUBE_CONFIG }}" -n adservice run adservice --image=nvyakimov/adservice:1.0.0
     # set kubernetes cluster
-       - name: Set Kubeconfig
-         run: yc managed-kubernetes cluster get-credentials --id catg9d7ku0ovrqfhd3gd --external
+       #- name: Set Kubeconfig
+         #run: yc managed-kubernetes cluster get-credentials --id catg9d7ku0ovrqfhd3gd --external
     # deploy app
-       - name: Deploy
-         run: kubectl -n online-boutique apply -f adservice.yaml
+       #- name: Deploy
+         #run: kubectl -n online-boutique apply -f adservice.yaml
+
+        
