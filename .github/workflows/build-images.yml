@@ -21,17 +21,13 @@ jobs:
     #push
     #   - name: Push Image
     #     run: docker push nvyakimov/adservice:1.0.0
-       - name: cp kubeconfig
-       - uses: tale/kubectl-action@v1
-         with:
-           base64-kube-config: ${{ secrets.KUBE_CONFIG }}
-       - run: kubectl get pods
-         #run:  sudo kubectl --kubeconfig /home/runner/work/kube-project/kube-project/online-boutique/kubeconfig -n adservice run adservice --image=nvyakimov/adservice:1.0.0
-    # set kubernetes cluster
-       #- name: Set Kubeconfig
-         #run: yc managed-kubernetes cluster get-credentials --id catg9d7ku0ovrqfhd3gd --external
-    # deploy app
-       #- name: Deploy
-         #run: kubectl -n online-boutique apply -f adservice.yaml
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: tale/kubectl-action@v1
+      with:
+        base64-kube-config: ${{ secrets.MINIKUBE_CONFIG }}
+    - run: kubectl get pods
+    #- run: kubectl create ns test
 
         
