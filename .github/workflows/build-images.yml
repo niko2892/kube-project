@@ -21,21 +21,15 @@ jobs:
   
   build-images:
     runs-on: ubuntu-latest
-    #defaults:
-    #  run:
-    #    working-directory: /home/runner/work/kube-project/kube-project/microservices-demo/src/adservice
+    defaults:
+      run:
+        working-directory: /home/runner/work/kube-project/kube-project/online-boutique/src/adservice
     steps:
-      - name: Pwd
-        run: pwd && ls -la && ls -l  /home/runner/work/ && ls -l /home/runner/work/kube-project && ls -l /home/runner/work/kube-project/kube-project
+      - name: Build Image
+        run: docker build -t nvyakimov/adservice:1.0.0 .
 
-      - name: Ls
-        run: ls -l /home/runner/work/kube-project/kube-project/microservices-demo/ && ls -l /home/runner/work/kube-project/kube-project/microservices-demo/src && ls -l /home/runner/work/kube-project/kube-project/microservices-demo/src/adservice
-    
-      #- name: Build Image
-      #  run: docker build -t nvyakimov/adservice:1.0.0 .
-
-      #- name: Push Image
-       # run: docker push
+      - name: Push Image
+        run: docker push
   deploy-app:
     runs-on: ubuntu-latest
     defaults:
