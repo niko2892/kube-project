@@ -4,6 +4,15 @@ on:
 
 
 jobs:
+#pull code
+  checkout-code:
+    runs-on: ubuntu-latest
+    steps:
+       - name: Checkout code
+         uses: actions/checkout@v3
+       - name: Check if code exists
+         run: ls -l /home/runner/work/kube-project/kube-project
+ #docker login 
   docker-login:
     runs-on: ubuntu-latest
     steps:
@@ -13,12 +22,7 @@ jobs:
         with:
           username: "${{ vars.DOCKERHUB_USERNAME }}"
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-  checkout-code:
-    runs-on: ubuntu-latest
-    steps:
-       - name: Checkout code
-         uses: actions/checkout@v3
-  
+  #build image
   build-images:
     runs-on: ubuntu-latest
     #defaults:
