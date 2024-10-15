@@ -16,7 +16,7 @@ jobs:
            password: ${{ secrets.DOCKERHUB_TOKEN }}
     #build
        - name: Build Image\
-         working-directory: /home/runner/work/kube-project/kube-project/adservice
+         working-directory: /home/runner/work/kube-project/kube-project/src/adservice
          run: docker build -t nvyakimov/adservice:1.0.0 .
     #push
        - name: Push Image
