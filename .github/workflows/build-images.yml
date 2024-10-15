@@ -15,11 +15,12 @@ jobs:
            username: "${{ vars.DOCKERHUB_USERNAME }}"
            password: ${{ secrets.DOCKERHUB_TOKEN }}
     #build
-       - name: Build Image
+       - name: Build Image\
+         working-directory: /home/runner/work/kube-project/kube-project/adservice
          run: docker build -t nvyakimov/adservice:1.0.0 .
     #push
        - name: Push Image
-         run: docker push
+         run: docker push nvyakimov/adservice:1.0.0
     # set kubernetes cluster
        - name: Set Kubeconfig
          run: yc managed-kubernetes cluster get-credentials --id catg9d7ku0ovrqfhd3gd --external
