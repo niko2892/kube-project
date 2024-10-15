@@ -22,11 +22,10 @@ jobs:
     #   - name: Push Image
     #     run: docker push nvyakimov/adservice:1.0.0
        - name: cp kubeconfig
-         uses: actions-hub/kubectl@master
-         env:
-           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+       - uses: tale/kubectl-action@v1
          with:
-           args: get pods
+           base64-kube-config: ${{ secrets.KUBE_CONFIG }}
+       - run: kubectl get pods
          #run:  sudo kubectl --kubeconfig /home/runner/work/kube-project/kube-project/online-boutique/kubeconfig -n adservice run adservice --image=nvyakimov/adservice:1.0.0
     # set kubernetes cluster
        #- name: Set Kubeconfig
