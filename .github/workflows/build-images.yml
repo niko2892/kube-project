@@ -15,6 +15,9 @@ jobs:
            username: "${{ vars.DOCKERHUB_USERNAME }}"
            password: ${{ secrets.DOCKERHUB_TOKEN }}
     #build
+       - name: ls
+         run: ls -l /home/runner/work/kube-project/kube-project && ls -l /home/runner/work/kube-project/kube-project/src
+         
        - name: Build Image\
          working-directory: /home/runner/work/kube-project/kube-project/src/adservice
          run: docker build -t nvyakimov/adservice:1.0.0 .
