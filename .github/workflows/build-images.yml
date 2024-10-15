@@ -26,9 +26,9 @@ jobs:
        - name: cat kubeconfig
          run:  cat /home/runner/work/kube-project/kube-project/online-boutique/kubeconfig
        - name: create ns
-         run:  kubectl --kubeconfig /home/runner/work/kube-project/kube-project/online-boutique/kubeconfig create ns adservice
+         run:  sudo kubectl --kubeconfig /home/runner/work/kube-project/kube-project/online-boutique/kubeconfig create ns adservice
        - name: deploy
-         run:  kubectl --kubeconfig /home/runner/work/kube-project/kube-project/online-boutique/kubeconfig -n adservice run adservice --image=nvyakimov/adservice:1.0.0
+         run:  sudo kubectl --kubeconfig /home/runner/work/kube-project/kube-project/online-boutique/kubeconfig -n adservice run adservice --image=nvyakimov/adservice:1.0.0
     # set kubernetes cluster
        #- name: Set Kubeconfig
          #run: yc managed-kubernetes cluster get-credentials --id catg9d7ku0ovrqfhd3gd --external
