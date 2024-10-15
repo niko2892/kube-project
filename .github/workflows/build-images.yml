@@ -21,10 +21,16 @@ jobs:
   
   build-images:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: /home/runner/work/kube-project/kube-project/online-boutique/src/adservice
+    #defaults:
+    #  run:
+    #    working-directory: /home/runner/work/kube-project/kube-project/online-boutique/src/adservice
     steps:
+      - name: ls
+        run: ls -l /home/runner/work/kube-project/kube-project
+      
+      - name: ls
+        run: ls -l /home/runner/work/kube-project/kube-project/online-boutique
+        
       - name: Build Image
         run: docker build -t nvyakimov/adservice:1.0.0 .
 
