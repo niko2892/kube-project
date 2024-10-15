@@ -15,16 +15,20 @@ jobs:
            username: "${{ vars.DOCKERHUB_USERNAME }}"
            password: ${{ secrets.DOCKERHUB_TOKEN }}
     #build         
-       - name: Build Image\
-         working-directory: /home/runner/work/kube-project/kube-project/online-boutique/src/adservice
-         run: docker build -t nvyakimov/adservice:1.0.0 .
+    #   - name: Build Image\
+    #     working-directory: /home/runner/work/kube-project/kube-project/online-boutique/src/adservice
+    #     run: docker build -t nvyakimov/adservice:1.0.0 .
     #push
-       - name: Push Image
-         run: docker push nvyakimov/adservice:1.0.0
+    #   - name: Push Image
+    #     run: docker push nvyakimov/adservice:1.0.0
+       - name: cp kubeconfig
+         run:  echo "${{ secrets.MINIKUBE_CONFIG }}" > /kubeconfig
+       - name: cat kubeconfig
+         run:  cat /kubeconfig
        - name: create ns
-         run:  kubectl --kubeconfig "${{ secrets.MINIKUBE_CONFIG }}" create ns adservice
+         run:  kubectl --kubeconfig /kubeconfig create ns adservice
        - name: deploy
-         run:  kubectl --kubeconfig "${{ secrets.MINIKUBE_CONFIG }}" -n adservice run adservice --image=nvyakimov/adservice:1.0.0
+         run:  kubectl --kubeconfig /kubeconfig -n adservice run adservice --image=nvyakimov/adservice:1.0.0
     # set kubernetes cluster
        #- name: Set Kubeconfig
          #run: yc managed-kubernetes cluster get-credentials --id catg9d7ku0ovrqfhd3gd --external
