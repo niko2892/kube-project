@@ -22,13 +22,12 @@ jobs:
     #   - name: Push Image
     #     run: docker push nvyakimov/adservice:1.0.0
        - name: cp kubeconfig
-         run:  echo "${{ secrets.MINIKUBE_CONFIG }}" > /home/runner/work/kube-project/kube-project/online-boutique/kubeconfig
-       - name: cat kubeconfig
-         run:  cat /home/runner/work/kube-project/kube-project/online-boutique/kubeconfig
-       - name: create ns
-         run:  sudo kubectl --kubeconfig /home/runner/work/kube-project/kube-project/online-boutique/kubeconfig create ns adservice
-       - name: deploy
-         run:  sudo kubectl --kubeconfig /home/runner/work/kube-project/kube-project/online-boutique/kubeconfig -n adservice run adservice --image=nvyakimov/adservice:1.0.0
+         uses: actions-hub/kubectl@master
+         env:
+           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+         with:
+           args: get pods
+         #run:  sudo kubectl --kubeconfig /home/runner/work/kube-project/kube-project/online-boutique/kubeconfig -n adservice run adservice --image=nvyakimov/adservice:1.0.0
     # set kubernetes cluster
        #- name: Set Kubeconfig
          #run: yc managed-kubernetes cluster get-credentials --id catg9d7ku0ovrqfhd3gd --external
