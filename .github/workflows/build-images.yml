@@ -67,6 +67,6 @@ jobs:
           for app_dir in *; do
             echo "Building and pushing $app_dir image..."
             cd $app_dir
-            docker build -t nvyakimov/$app_dir:${{ runner.workflow.ref_name }} .
-            docker push nvyakimov/$app_dir:${{ runner.workflow.ref_name }}
+            docker build -t nvyakimov/$app_dir:1.0.0 .
+            docker push nvyakimov/$app_dir:1.0.0
           done
