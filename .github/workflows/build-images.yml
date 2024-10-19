@@ -40,7 +40,7 @@ jobs:
      - uses: actions-hub/kubectl@master
        env:
          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-
+         KUBE_CONTEXT: yc-kuber-cluster
      - uses: actions-hub/kubectl@master
        with:
          args: get pods
