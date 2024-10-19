@@ -67,9 +67,8 @@ jobs:
           for app_dir in *; do
             echo "Building and pushing $app_dir image..."
             if [ "$app_dir" == "cartservice" ]; then
-              cd $app_dir/src
-              docker build -t nvyakimov/$app_dir:1.0.0 .
-              docker push nvyakimov/$app_dir:1.0.0
+              docker build -t nvyakimov/$app_dir:1.0.0 cartservice/src/
+              docker push nvyakimov/cartservice:1.0.0
             else
               cd $app_dir
               docker build -t nvyakimov/$app_dir:1.0.0 .
