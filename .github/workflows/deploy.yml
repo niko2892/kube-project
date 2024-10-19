@@ -30,7 +30,7 @@ jobs:
             echo "Building and pushing $app_dir image..."
             docker build -t nvyakimov/$app_dir:1.0.0 $app_dir
             docker push nvyakimov/$app_dir:1.0.0
-            echo ###############################
+            echo "###############################"
           done
 #  deploy:
 #   runs-on: ubuntu-latest
