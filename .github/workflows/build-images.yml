@@ -48,6 +48,9 @@ jobs:
 #      run: kubectl config use-context yc-kuber-cluster
 #    - name: Deploy to K8s
 #      run: kubectl run adservice --image nvyakimov/adservice:1.0.0
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    steps:
      - name: Build and Push Images
        working-directory: /home/runner/work/kube-project/kube-project/online-boutique
        run: |
