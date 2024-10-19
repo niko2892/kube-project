@@ -36,13 +36,14 @@ jobs:
    #needs: [build-and-push-image]
    #if: ${{ always() }}
    steps:
-    - name: 'Checkout'  # Checkout the repository code.
-      uses: 'actions/checkout@v3'
-
-    - name: 'Deploy'
-      uses: 'deliverybot/helm@master'
-      with:
-        token: ${{ secrets.DOCKERHUB_TOKEN }}
-        chart: 'onlineboutique'
-      env:
-        KUBECONFIG_FILE: '${{ secrets.KUBE_CONFIG }}'
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Create kubeconfig
+      run: |
+        mkdir ${HOME}/.kube
+        echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+        cat ${HOME}/.kube/config
+    - name: Use context
+      run: kubectl config use-context yc-kuber-cluster
+    - name: Deploy to K8s
+      run: kubectl run adservice --image nvyakimov/adservice:1.0.0
