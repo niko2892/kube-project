@@ -41,6 +41,7 @@ jobs:
     - name: Create kubeconfig
       run: |
         mkdir ${HOME}/.kube
+        echo "${{ secrets.KUBE_CA }}" | base64 --decode > ${HOME}/.kube/ca.pem
         echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ${HOME}/.kube/config
         cat ${HOME}/.kube/config
     - name: Use context
