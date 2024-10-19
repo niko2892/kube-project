@@ -33,8 +33,8 @@ jobs:
         run: docker push nvyakimov/adservice:1.0.0
   deploy:
    runs-on: ubuntu-latest
-   #needs: [build-and-push-image]
-   #if: ${{ always() }}
+   needs: [build-and-push-image]
+   if: ${{ always() }}
    steps:
     - name: Checkout code
       uses: actions/checkout@v3
