@@ -51,12 +51,22 @@ jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
     steps:
-     - name: Build and Push Images
-       working-directory: /home/runner/work/kube-project/kube-project/online-boutique
-       run: |
-         for app_dir in $(find src -maxdepth 1 -type d -printf "%f\n"); do
-           echo "Building and pushing $app_dir image..."
-           cd src/$app_dir
-           docker build -t nvyakimov/$app_dir:${{ runner.workflow.ref_name }} .
-           docker push nvyakimov/$app_dir:${{ runner.workflow.ref_name }}
-         done
+      #pull code
+      - name: Checkout code
+        uses: actions/checkout@v3
+      #docker login
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: "${{ vars.DOCKERHUB_USERNAME }}"
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      #build&push
+      - name: Build and Push Images
+        working-directory: /home/runner/work/kube-project/kube-project/online-boutique
+        run: |
+          for app_dir in $(find src -maxdepth 1 -type d -printf "%f\n"); do
+            echo "Building and pushing $app_dir image..."
+            cd src/$app_dir
+            docker build -t nvyakimov/$app_dir:${{ runner.workflow.ref_name }} .
+            docker push nvyakimov/$app_dir:${{ runner.workflow.ref_name }}
+          done
