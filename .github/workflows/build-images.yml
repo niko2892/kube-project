@@ -2,6 +2,13 @@ name: Build Online Boutique Images
 on:
   workflow_dispatch:
 jobs:
+  linter:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+        - name: Check code base
+          uses: docker://github/super-linter:v2.1.0
   checkout-code:
     runs-on: ubuntu-latest
     steps:
@@ -15,19 +22,12 @@ jobs:
            username: "${{ vars.DOCKERHUB_USERNAME }}"
            password: ${{ secrets.DOCKERHUB_TOKEN }}
     #build         
-    #   - name: Build Image\
-    #     working-directory: /home/runner/work/kube-project/kube-project/online-boutique/src/adservice
-    #     run: docker build -t nvyakimov/adservice:1.0.0 .
+       - name: Build Image\
+         working-directory: /home/runner/work/kube-project/kube-project/online-boutique/src/adservice
+         run: docker build -t nvyakimov/adservice:1.0.0 .
     #push
-    #   - name: Push Image
-    #     run: docker push nvyakimov/adservice:1.0.0
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: tale/kubectl-action@v1
-      with:
-        base64-kube-config: ${{ secrets.MINIKUBE_CONFIG }}
-    - run: kubectl get pods
-    #- run: kubectl create ns test
+       - name: Push Image
+         run: docker push nvyakimov/adservice:1.0.0
+ 
 
         
