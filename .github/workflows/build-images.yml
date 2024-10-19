@@ -36,11 +36,13 @@ jobs:
    #needs: [build-and-push-image]
    #if: ${{ always() }}
    steps:
-     - uses: actions/checkout@v4
-     - uses: actions-hub/kubectl@master
-       env:
-         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-         KUBE_CONTEXT: yc-kuber-cluster
-     - uses: actions-hub/kubectl@master
-       with:
-         args: get pods
+    - name: 'Checkout'  # Checkout the repository code.
+      uses: 'actions/checkout@v3'
+
+    - name: 'Deploy'
+      uses: 'deliverybot/helm@master'
+      with:
+        token: ${{ secrets.DOCKERHUB_TOKEN }}
+        chart: 'onlineboutique'
+      env:
+        KUBECONFIG_FILE: '${{ secrets.KUBE_CONFIG }}'
