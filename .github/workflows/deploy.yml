@@ -65,8 +65,8 @@ jobs:
       run: helm -n onlineboutique upgrade -f values.yaml onlineboutique . --install --create-namespace
   notify:
     runs-on: ubuntu-latest
-    #needs: [deploy]
-    #if: ${{ always() }}
+    needs: [deploy]
+    if: ${{ always() }}
     steps:
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
