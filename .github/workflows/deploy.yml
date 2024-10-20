@@ -21,6 +21,13 @@ jobs:
       #pull code
       - name: Checkout code
         uses: actions/checkout@v3
+      #get current tag
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Test
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
       #docker login
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -33,8 +40,8 @@ jobs:
         run: |
           for app_dir in *; do
             echo "Building and pushing $app_dir image..."
-            docker build -t nvyakimov/$app_dir:"${{ github.event.release.tag_name }}" $app_dir
-            docker push nvyakimov/$app_dir:"${{ github.event.release.tag_name }}"
+            docker build -t nvyakimov/$app_dir:"${{ env.RELEASE_VERSION }}" $app_dir
+            docker push nvyakimov/$app_dir:"${{ env.RELEASE_VERSION }}"
             echo "###############################"
           done
   deploy:
@@ -66,4 +73,4 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            Успешно выполнен релиз приложения OnlineBoutique новой версии "${GITHUB_REF#refs/*/}".
+            Успешно выполнен релиз приложения OnlineBoutique новой версии "${{ env.RELEASE_VERSION }}".
