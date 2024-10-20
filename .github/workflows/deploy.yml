@@ -50,6 +50,4 @@ jobs:
       run: kubectl config use-context yc-kuber-cluster
     - name: Deploy to K8s
       working-directory: /home/runner/work/kube-project/kube-project/online-boutique/helm-chart
-      run: |
-        kubectl get ns
-        helm -n onlineboutique upgrade -f values.yaml onlineboutique . --install --create-namespace
+      run: helm -n onlineboutique upgrade -f values.yaml onlineboutique . --install --create-namespace
