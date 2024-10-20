@@ -107,7 +107,7 @@ spec:
           privileged: false
           readOnlyRootFilesystem: true
         #image: {{ .Values.images.repository }}/nvyakimov/{{ .Values.loadGenerator.name }}:{{ .Values.images.tag | default .Chart.AppVersion }}
-        image: nvyakimov/{{ .Values.loadGenerator.name }}:1.0.0
+        image: nvyakimov/{{ .Values.loadGenerator.name }}:{{ .Values.version }}
         env:
         - name: FRONTEND_ADDR
           value: "{{ .Values.frontend.name }}:80"
