@@ -17,7 +17,8 @@
 # Declare variables to be passed into your templates.
 
 images:
-  repository: us-central1-docker.pkg.dev/google-samples/microservices-demo
+  # repository: us-central1-docker.pkg.dev/google-samples/microservices-demo
+  repository: hub.docker.com
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
@@ -61,7 +62,7 @@ securityContext:
 
 adService:
   create: true
-  name: adservice
+  name: nvyakimov/adservice
   resources:
     requests:
       cpu: 200m
@@ -72,7 +73,7 @@ adService:
 
 cartService:
   create: true
-  name: cartservice
+  name: nvyakimov/cartservice
   resources:
     requests:
       cpu: 200m
@@ -83,7 +84,7 @@ cartService:
 
 checkoutService:
   create: true
-  name: checkoutservice
+  name: nvyakimov/checkoutservice
   resources:
     requests:
       cpu: 100m
@@ -94,7 +95,7 @@ checkoutService:
 
 currencyService:
   create: true
-  name: currencyservice
+  name: nvyakimov/currencyservice
   resources:
     requests:
       cpu: 100m
@@ -105,7 +106,7 @@ currencyService:
 
 emailService:
   create: true
-  name: emailservice
+  name: nvyakimov/emailservice
   resources:
     requests:
       cpu: 100m
@@ -116,7 +117,7 @@ emailService:
 
 frontend:
   create: true
-  name: frontend
+  name: nvyakimov/frontend
   externalService: true
   cymbalBranding: false
   # One of: local, gcp, aws, azure, onprem, alibaba. When not set, defaults to "local" unless running in GKE, otherwise auto-sets to gcp.
@@ -141,7 +142,7 @@ frontend:
 
 loadGenerator:
   create: true
-  name: loadgenerator
+  name: nvyakimov/loadgenerator
   checkFrontendInitContainer: true
   resources:
     requests:
@@ -153,7 +154,7 @@ loadGenerator:
 
 paymentService:
   create: true
-  name: paymentservice
+  name: nvyakimov/paymentservice
   resources:
     requests:
       cpu: 100m
@@ -164,7 +165,7 @@ paymentService:
 
 productCatalogService:
   create: true
-  name: productcatalogservice
+  name: nvyakimov/productcatalogservice
   # Specifies an extra latency to any request on productcatalogservice, by default no extra latency.
   extraLatency: ""
   resources:
@@ -177,7 +178,7 @@ productCatalogService:
 
 recommendationService:
   create: true
-  name: recommendationservice
+  name: nvyakimov/recommendationservice
   resources:
     requests:
       cpu: 100m
@@ -188,7 +189,7 @@ recommendationService:
 
 shippingService:
   create: true
-  name: shippingservice
+  name: nvyakimov/shippingservice
   resources:
     requests:
       cpu: 100m
