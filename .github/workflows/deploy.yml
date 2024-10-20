@@ -11,6 +11,8 @@ jobs:
      - name: Check code base
        uses: docker://github/super-linter:v2.1.0
   build-and-push-image:
+    needs: [linter]
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       #pull code
