@@ -70,7 +70,8 @@ spec:
                 - ALL
             privileged: false
             readOnlyRootFilesystem: true
-          image: {{ .Values.images.repository }}/{{ .Values.frontend.name }}:{{ .Values.images.tag | default .Chart.AppVersion }}
+          #image: {{ .Values.images.repository }}/nvyakimov/{{ .Values.frontend.name }}:{{ .Values.images.tag | default .Chart.AppVersion }}
+          image: nvyakimov/{{ .Values.frontend.name }}:1.0.0
           ports:
           - containerPort: 8080
           readinessProbe:

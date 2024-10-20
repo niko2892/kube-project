@@ -69,7 +69,8 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: {{ .Values.images.repository }}/{{ .Values.productCatalogService.name }}:{{ .Values.images.tag | default .Chart.AppVersion }}
+        #image: {{ .Values.images.repository }}/nvyakimov/{{ .Values.productCatalogService.name }}:{{ .Values.images.tag | default .Chart.AppVersion }}
+        image: nvyakimov/{{ .Values.productCatalogService.name }}:1.0.0
         ports:
         - containerPort: 3550
         env:

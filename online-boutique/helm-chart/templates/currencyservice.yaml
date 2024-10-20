@@ -69,7 +69,8 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: {{ .Values.images.repository }}/{{ .Values.currencyService.name }}:{{ .Values.images.tag | default .Chart.AppVersion }}
+        #image: {{ .Values.images.repository }}/nvyakimov/{{ .Values.currencyService.name }}:{{ .Values.images.tag | default .Chart.AppVersion }}
+        image: nvyakimov/{{ .Values.currencyService.name }}:1.0.0
         ports:
         - name: grpc
           containerPort: 7000

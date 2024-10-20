@@ -62,7 +62,7 @@ securityContext:
 
 adService:
   create: true
-  name: nvyakimov/adservice
+  name: adservice
   resources:
     requests:
       cpu: 200m
@@ -73,7 +73,7 @@ adService:
 
 cartService:
   create: true
-  name: nvyakimov/cartservice
+  name: cartservice
   resources:
     requests:
       cpu: 200m
@@ -84,7 +84,7 @@ cartService:
 
 checkoutService:
   create: true
-  name: nvyakimov/checkoutservice
+  name: checkoutservice
   resources:
     requests:
       cpu: 100m
@@ -95,7 +95,7 @@ checkoutService:
 
 currencyService:
   create: true
-  name: nvyakimov/currencyservice
+  name: currencyservice
   resources:
     requests:
       cpu: 100m
@@ -106,7 +106,7 @@ currencyService:
 
 emailService:
   create: true
-  name: nvyakimov/emailservice
+  name: emailservice
   resources:
     requests:
       cpu: 100m
@@ -117,7 +117,7 @@ emailService:
 
 frontend:
   create: true
-  name: nvyakimov/frontend
+  name: frontend
   externalService: true
   cymbalBranding: false
   # One of: local, gcp, aws, azure, onprem, alibaba. When not set, defaults to "local" unless running in GKE, otherwise auto-sets to gcp.
@@ -142,7 +142,7 @@ frontend:
 
 loadGenerator:
   create: true
-  name: nvyakimov/loadgenerator
+  name: loadgenerator
   checkFrontendInitContainer: true
   resources:
     requests:
@@ -154,7 +154,7 @@ loadGenerator:
 
 paymentService:
   create: true
-  name: nvyakimov/paymentservice
+  name: paymentservice
   resources:
     requests:
       cpu: 100m
@@ -165,7 +165,7 @@ paymentService:
 
 productCatalogService:
   create: true
-  name: nvyakimov/productcatalogservice
+  name: productcatalogservice
   # Specifies an extra latency to any request on productcatalogservice, by default no extra latency.
   extraLatency: ""
   resources:
@@ -178,7 +178,7 @@ productCatalogService:
 
 recommendationService:
   create: true
-  name: nvyakimov/recommendationservice
+  name: recommendationservice
   resources:
     requests:
       cpu: 100m
@@ -189,7 +189,7 @@ recommendationService:
 
 shippingService:
   create: true
-  name: nvyakimov/shippingservice
+  name: shippingservice
   resources:
     requests:
       cpu: 100m
