@@ -68,7 +68,7 @@ spec:
           privileged: false
           readOnlyRootFilesystem: true
         #image: {{ .Values.images.repository }}/nvyakimov/{{ .Values.paymentService.name }}:{{ .Values.images.tag | default .Chart.AppVersion }}
-        image: nvyakimov/{{ .Values.paymentService.name }}:1.0.0
+        image: nvyakimov/{{ .Values.paymentService.name }}:{{ .Values.version }}
         ports:
         - containerPort: 50051
         env:

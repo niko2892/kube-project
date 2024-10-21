@@ -74,7 +74,7 @@ spec:
           privileged: false
           readOnlyRootFilesystem: true
         #image: {{ .Values.images.repository }}/nvyakimov/{{ .Values.cartService.name }}:{{ .Values.images.tag | default .Chart.AppVersion }}
-        image: nvyakimov/{{ .Values.cartService.name }}:1.0.0
+        image: nvyakimov/{{ .Values.cartService.name }}:{{.Values.version}}
         ports:
         - containerPort: 7070
         env:
