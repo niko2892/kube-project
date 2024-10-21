@@ -61,21 +61,20 @@ jobs:
     - name: Deploy to K8s
       working-directory: /home/runner/work/kube-project/kube-project/online-boutique/helm-chart
       run: helm -n onlineboutique upgrade --set version="${{ env.RELEASE_VERSION }}" -f values.yaml onlineboutique . --install --create-namespace
-  notify-success:
+  notify:
     runs-on: ubuntu-latest
     needs: [deploy]
     steps:
-      #get current tag
-      - name: Get current app version by tag
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: send telegram message on push
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            {% if job.status == 'success' %}
-            Успешно выполнен релиз приложения OnlineBoutique новой версии "${{ env.RELEASE_VERSION }}".
-            {% else %}
-            Релиз приложения OnlineBoutique новой версии "${{ env.RELEASE_VERSION }}" не выполнен. Произошла ошибка.
-            {% endif %}
+    - name: Set success variable
+      run: echo "SUCCESS=${{ job.status == 'success' }}" >> $GITHUB_ENV
+    - name: Send Telegram message on push
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          {% if ${{ env.SUCCESS }} == 'true' %}
+          Успешно выполнен релиз приложения OnlineBoutique новой версии "${{ env.RELEASE_VERSION }}".
+          {% else %}
+          Релиз приложения OnlineBoutique новой версии "${{ env.RELEASE_VERSION }}" не выполнен. Произошла ошибка.
+          {% endif %}
