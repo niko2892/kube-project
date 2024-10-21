@@ -29,3 +29,27 @@ jobs:
         
       - name: Output Terraform state
         run: terraform show -json > terraform.json
+  notify-success:
+    runs-on: ubuntu-latest    
+    needs: [run-kuber-cluster]
+    if: ${{ success() }}    
+    steps:
+    - name: send telegram message on push
+      uses: appleboy/telegram-action@master        
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}          
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |            
+          Успешно развернут kubernetes кластер в Яндекс.Облаке".
+  notify-failure:
+    runs-on: ubuntu-latest
+    needs: [run-kuber-cluster]  
+    if: ${{  failure() }}
+    steps:
+      - name: send telegram message on push        
+        uses: appleboy/telegram-action@master
+        with:          
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}          
+          message: |
+            kubernetes кластер в Яндекс.Облаке не развернут. Произошла ошибка.
