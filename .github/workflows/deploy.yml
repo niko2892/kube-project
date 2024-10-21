@@ -58,6 +58,11 @@ jobs:
       #get current tag
     - name: Get current app version by tag
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+    - name: Enable istio
+      run: kubectl label namespace onlineboutique istio-injection=enabled
+    - name: Apply istio manifests
+      working-directory: /home/runner/work/kube-project/kube-project/online-boutique
+      run: kubectl apply -f istio-manifests
     - name: Deploy to K8s
       working-directory: /home/runner/work/kube-project/kube-project/online-boutique/helm-chart
       run: helm -n onlineboutique upgrade --set version="${{ env.RELEASE_VERSION }}" -f values.yaml onlineboutique . --install --create-namespace
