@@ -98,6 +98,22 @@ resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
   depends_on  = [yandex_iam_service_account.sa]
 }
 
+resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
+  # Сервисному аккаунту назначается роль "load-balancer.admin".
+  folder_id   = "${var.folder_id}"
+  role      = "load-balancer.admin"
+  member      = "serviceAccount:${yandex_iam_service_account.sa.id}"
+  depends_on  = [yandex_iam_service_account.sa]
+}
+
+resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
+  # Сервисному аккаунту назначается роль "editor".
+  folder_id   = "${var.folder_id}"
+  role      = "editor"
+  member      = "serviceAccount:${yandex_iam_service_account.sa.id}"
+  depends_on  = [yandex_iam_service_account.sa]
+}
+
 
 #создание кластера kubernetes
 resource "yandex_kubernetes_cluster" "kuber_cluster" {
