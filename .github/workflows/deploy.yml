@@ -42,8 +42,8 @@ jobs:
           done
   deploy:
     runs-on: ubuntu-latest
-    needs: [build-and-push-image]
-    if: ${{ always() }}
+    #needs: [build-and-push-image]
+    #if: ${{ always() }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -58,6 +58,8 @@ jobs:
       #get current tag
     - name: Get current app version by tag
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+    - name: Create namespace
+      run: kubectl create namespace onlineboutique --dry-run=client -o yaml | kubectl apply -f -
     - name: Enable istio
       run: kubectl label namespace onlineboutique istio-injection=enabled
     - name: Apply istio manifests
@@ -65,7 +67,7 @@ jobs:
       run: kubectl apply -f istio-manifests
     - name: Deploy to K8s
       working-directory: /home/runner/work/kube-project/kube-project/online-boutique/helm-chart
-      run: helm -n onlineboutique upgrade --set version="${{ env.RELEASE_VERSION }}" -f values.yaml onlineboutique . --install --create-namespace
+      run: helm -n onlineboutique upgrade --set version="${{ env.RELEASE_VERSION }}" -f values.yaml onlineboutique . --install
   notify-success:
     runs-on: ubuntu-latest    
     needs: [deploy]
