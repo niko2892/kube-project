@@ -98,7 +98,7 @@ resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
   depends_on  = [yandex_iam_service_account.sa]
 }
 
-resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
+resource "yandex_resourcemanager_folder_iam_member" "loadBalancer" {
   # Сервисному аккаунту назначается роль "load-balancer.admin".
   folder_id   = "${var.folder_id}"
   role      = "load-balancer.admin"
@@ -106,7 +106,7 @@ resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
   depends_on  = [yandex_iam_service_account.sa]
 }
 
-resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
+resource "yandex_resourcemanager_folder_iam_member" "editor" {
   # Сервисному аккаунту назначается роль "editor".
   folder_id   = "${var.folder_id}"
   role      = "editor"
