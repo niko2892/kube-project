@@ -1,4 +1,4 @@
-name: Setuo Kubernetes
+name: Setup Kubernetes
 on:
   workflow_dispatch:
 
