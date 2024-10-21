@@ -20,7 +20,7 @@ jobs:
     - name: Get current app version by tag
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Install kiali
-      working-directory: /home/runner/work/kube-project/kube-project/online-boutique/istio
+      working-directory: /home/runner/work/kube-project/kube-project/istio
       run: kubectl apply -f addons/kiali.yaml
   notify-success:
     runs-on: ubuntu-latest    
@@ -36,7 +36,7 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}          
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |            
-          Успешно выполнен релиз приложения OnlineBoutique новой версии "${{ env.RELEASE_VERSION }}".
+          Успешно выполнен релиз приложений для мониторинга.
   notify-failure:
     runs-on: ubuntu-latest
     needs: [deploy]    
@@ -51,4 +51,4 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}          
           message: |
-            Релиз приложения OnlineBoutique новой версии "${{ env.RELEASE_VERSION }}" не выполнен. Произошла ошибка.
+            Релиз приложений для мониторинга не выполнен. Произошла ошибка.
