@@ -49,6 +49,8 @@ jobs:
           kubectl get deployments -n istio-system --output wide && \
           kubectl create namespace istio-ingress && \
           helm upgrade istio-ingress istio/gateway -n istio-ingress --wait --install
+      - name: Install kiali
+        run: helm --namespace istio-system upgrade --set auth.strategy="anonymous" --repo https://kiali.org/helm-charts kiali-server kiali-server --install
   notify-success:
     runs-on: ubuntu-latest    
     needs: [install-ingress-controller,install-istio]
