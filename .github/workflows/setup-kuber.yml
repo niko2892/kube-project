@@ -40,15 +40,13 @@ jobs:
         run: |
           helm repo add istio https://istio-release.storage.googleapis.com/charts && \
           helm repo update && \
-          kubectl create namespace istio-system && \
-          helm upgrade istio-base istio/base -n istio-system --set defaultRevision=default --install && \
+          helm upgrade istio-base istio/base -n istio-system --set defaultRevision=default --install --create-namespace && \
           helm ls -n istio-system && \
-          helm upgrade istiod istio/istiod -n istio-system --wait --install && \
+          helm upgrade istiod istio/istiod -n istio-system --wait --install --create-namespace && \
           helm ls -n istio-system && \
           helm status istiod -n istio-system && \
           kubectl get deployments -n istio-system --output wide && \
-          kubectl create namespace istio-ingress && \
-          helm upgrade istio-ingress istio/gateway -n istio-ingress --wait --install && \
+          helm upgrade istio-ingress istio/gateway -n istio-ingress --wait --install --create-namespace && \
           kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.1.0" | kubectl apply -f -; }
   notify-success:
     runs-on: ubuntu-latest    
