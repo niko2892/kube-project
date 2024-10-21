@@ -11,18 +11,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Create kubeconfig
-          run: |
+        run: |
             mkdir ${HOME}/.kube
             echo "${{ secrets.KUBE_CA }}" | base64 --decode > ${HOME}/.kube/ca.pem
             echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ${HOME}/.kube/config
             cat ${HOME}/.kube/config
       - name: Use context
-          run: kubectl config use-context yc-kuber-cluster
+        run: kubectl config use-context yc-kuber-cluster
       - name: Install ingress nginx
-          run: |
-            helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx && \
-            helm repo update && \
-            helm upgrade ingress-nginx ingress-nginx/ingress-nginx --install
+        run: |
+          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx && \
+          helm repo update && \
+          helm upgrade ingress-nginx ingress-nginx/ingress-nginx --install
       - name: Check external cluster ip
         run: kubectl get svc
   install-istio:
@@ -31,26 +31,26 @@ jobs:
     #if: ${{ always() }}
     steps:
       - name: Create kubeconfig
-          run: |
-            mkdir ${HOME}/.kube
-            echo "${{ secrets.KUBE_CA }}" | base64 --decode > ${HOME}/.kube/ca.pem
-            echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ${HOME}/.kube/config
-            cat ${HOME}/.kube/config
+        run: |
+          mkdir ${HOME}/.kube
+          echo "${{ secrets.KUBE_CA }}" | base64 --decode > ${HOME}/.kube/ca.pem
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ${HOME}/.kube/config
+          cat ${HOME}/.kube/config
       - name: Use context
-          run: kubectl config use-context yc-kuber-cluster
+        run: kubectl config use-context yc-kuber-cluster
       - name: Install istio
-          run: |
-            helm repo add istio https://istio-release.storage.googleapis.com/charts && \
-            helm repo update && \
-            kubectl create namespace istio-system && \
-            helm upgrade istio-base istio/base -n istio-system --set defaultRevision=default --install && \
-            helm ls -n istio-system && \
-            helm upgrade istiod istio/istiod -n istio-system --wait --install && \
-            helm ls -n istio-system && \
-            helm status istiod -n istio-system && \
-            kubectl get deployments -n istio-system --output wide && \
-            kubectl create namespace istio-ingress && \
-            helm upgrade istio-ingress istio/gateway -n istio-ingress --wait --install
+        run: |
+          helm repo add istio https://istio-release.storage.googleapis.com/charts && \
+          helm repo update && \
+          kubectl create namespace istio-system && \
+          helm upgrade istio-base istio/base -n istio-system --set defaultRevision=default --install && \
+          helm ls -n istio-system && \
+          helm upgrade istiod istio/istiod -n istio-system --wait --install && \
+          helm ls -n istio-system && \
+          helm status istiod -n istio-system && \
+          kubectl get deployments -n istio-system --output wide && \
+          kubectl create namespace istio-ingress && \
+          helm upgrade istio-ingress istio/gateway -n istio-ingress --wait --install
   notify-success:
     runs-on: ubuntu-latest    
     needs: [install-ingress-controller,install-istio]
