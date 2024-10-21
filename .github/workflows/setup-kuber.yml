@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 jobs:  
-  install-apps:
+  install-ingress-controller:
     runs-on: ubuntu-latest
     #needs: [run-kuber-cluster]
     #if: ${{ always() }}
@@ -25,7 +25,12 @@ jobs:
           helm upgrade ingress-nginx ingress-nginx/ingress-nginx --install
       - name: Check external cluster ip
         run: kubectl get svc
-      - name: Install istio
+  install-istio:
+    runs-on: ubuntu-latest
+    #needs: [run-kuber-cluster]
+    #if: ${{ always() }}
+    steps:
+    - name: Install istio
         run: |
           helm repo add istio https://istio-release.storage.googleapis.com/charts
           helm repo update
@@ -40,7 +45,7 @@ jobs:
           helm upgrade istio-ingress istio/gateway -n istio-ingress --wait --install
   notify-success:
     runs-on: ubuntu-latest    
-    needs: [install-apps]
+    needs: [install-ingress-controller,install-istio]
     if: ${{ success() }}    
     steps:
     - name: send telegram message on push
@@ -52,7 +57,7 @@ jobs:
           Успешно установлен nginx ingress controller и istio в kubernetes".
   notify-failure:
     runs-on: ubuntu-latest
-    needs: [install-apps]    
+    needs: [install-ingress-controller,install-istio]  
     if: ${{  failure() }}
     steps:
       - name: send telegram message on push        
