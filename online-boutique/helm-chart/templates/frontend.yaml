@@ -149,22 +149,26 @@ spec:
   - name: http
     port: 80
     targetPort: 8080
-{{- if .Values.frontend.externalService }}
 ---
-apiVersion: v1
-kind: Service
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: {{ .Values.frontend.name }}-external
+  name: {{ .Values.frontend.name }}-ingress
   namespace: {{ .Release.Namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  type: LoadBalancer
-  selector:
-    app: {{ .Values.frontend.name }}
-  ports:
-  - name: http
-    port: 80
-    targetPort: 8080
-{{- end }}
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.frontend.name }}
+            port:
+              number: 80
 {{- if .Values.networkPolicies.create }}
 ---
 apiVersion: networking.k8s.io/v1
