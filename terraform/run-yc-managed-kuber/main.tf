@@ -76,10 +76,7 @@ resource "yandex_kubernetes_cluster" "kuber_cluster" {
  service_account_id      = yandex_iam_service_account.sa.id
  node_service_account_id = yandex_iam_service_account.sa.id
    depends_on = [
-     yandex_resourcemanager_folder_iam_member.clusters-agent,
-     yandex_resourcemanager_folder_iam_member.images-puller,
-     yandex_resourcemanager_folder_iam_member.vpc-public-admin,
-     yandex_resourcemanager_folder_iam_member.encrypterDecrypter
+     yandex_resourcemanager_folder_iam_member.kube-sa-roles
    ]
 }
 
