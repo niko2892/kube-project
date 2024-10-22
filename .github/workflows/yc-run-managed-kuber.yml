@@ -16,7 +16,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Run Terraform init
-        run: terraform init
+        run: terraform init -backend-config="access_key=${{ secrets.S3_ACCESS_KEY }}" -backend-config="secret_key=${{ secrets.S3_SECRET_KEY }}"
 
       - name: Run Terraform plan
         run: terraform plan -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" -var="folder_id=${{ secrets.YC_FOLDER_ID }}" -out=tfplan

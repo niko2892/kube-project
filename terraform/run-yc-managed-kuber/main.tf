@@ -7,13 +7,12 @@ terraform {
   required_version = ">= 0.13"
 
   backend "s3" {
-    endpoint          = "https://storage.yandexcloud.net"
-    dynamodb_endpoint = "https://docapi.serverless.yandexcloud.net/ru-central1/b1g51q1dos9of1b1ig5s/etnntu1sheicvm8un255"
-    bucket            = "tfstate-default-trainee"
-    region            = "ru-central1"
-    key               = "example-remote-state/terraform.tfstate"
-
-    dynamodb_table    = "tfstates-locks"
+    endpoints = {
+      s3 = "https://storage.yandexcloud.net"
+    }
+    bucket = "kube-project-terraform-state"
+    region = "ru-central1"
+    key    = "kuber-state/terraform.tfstate"
 
     skip_region_validation      = true
     skip_credentials_validation = true
