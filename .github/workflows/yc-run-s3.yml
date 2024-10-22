@@ -1,13 +1,13 @@
-name: Create Yandex Cloud Folder
+name: Create Yandex Cloud S3
 on:
   workflow_dispatch:
 
 jobs:
-  create-folder:
+  create-s3:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: /home/runner/work/kube-project/kube-project/terraform/create-yc-folder
+        working-directory: /home/runner/work/kube-project/kube-project/terraform/create-s3
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
