@@ -5,6 +5,21 @@ terraform {
     }
   }
   required_version = ">= 0.13"
+
+  backend "s3" {
+    endpoint          = "https://storage.yandexcloud.net"
+    dynamodb_endpoint = "https://docapi.serverless.yandexcloud.net/ru-central1/b1g51q1dos9of1b1ig5s/etnntu1sheicvm8un255"
+    bucket            = "tfstate-default-trainee"
+    region            = "ru-central1"
+    key               = "example-remote-state/terraform.tfstate"
+
+    dynamodb_table    = "tfstates-locks"
+
+    skip_region_validation      = true
+    skip_credentials_validation = true
+    skip_requesting_account_id  = true
+    skip_s3_checksum            = true
+  }
 }
 
 provider "yandex" {
@@ -86,7 +101,6 @@ resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
     }
   }
 }
-
 
 output "kuber_cluster_external_v4_endpoint" {
   value = yandex_kubernetes_cluster.kuber_cluster.master[0].external_v4_endpoint
