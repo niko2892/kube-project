@@ -28,3 +28,9 @@ variable "folder_name" {
   description = "название фолдера"
   default = "default"
 }
+
+variable "kube-sa-roles" {
+  type = list(string)
+  description = "роли для сервисного аккаунта terraform-state-admin"
+  default = ["container-registry.images.puller","k8s.clusters.agent","vpc.publicAdmin","load-balancer.admin","editor"]
+}

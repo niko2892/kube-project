@@ -46,6 +46,20 @@ resource "yandex_vpc_subnet" "app-subnet-a" {
   depends_on = [yandex_vpc_network.app-network]
 }
 
+#создание сервисного аккаунта для kubernetes
+resource "yandex_iam_service_account" "sa" {
+  folder_id   = "${var.folder_id}"
+  name        = "kube-sa"
+}
+
+resource "yandex_resourcemanager_folder_iam_member" "kube-sa-roles" {
+    for_each    = toset(var.kube-sa-roles)
+    folder_id   = "${var.folder_id}"
+    role        = each.value
+    member      = "serviceAccount:${yandex_iam_service_account.sa.id}"
+    depends_on  = [yandex_iam_service_account.sa]
+}
+
 #создание кластера kubernetes
 resource "yandex_kubernetes_cluster" "kuber_cluster" {
  name = "kuber-cluster"
@@ -68,7 +82,6 @@ resource "yandex_kubernetes_cluster" "kuber_cluster" {
      yandex_resourcemanager_folder_iam_member.encrypterDecrypter
    ]
 }
-
 
 #создание группы узлов https://yandex.cloud/ru/docs/managed-kubernetes/operations/node-group/node-group-create#terraform_1
 resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
