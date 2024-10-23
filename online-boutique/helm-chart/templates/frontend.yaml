@@ -157,6 +157,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "http01-clusterissuer"
 spec:
   ingressClassName: nginx
   rules:
