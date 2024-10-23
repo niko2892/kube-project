@@ -160,16 +160,22 @@ metadata:
     cert-manager.io/cluster-issuer: "http01-clusterissuer"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+      - {{ .Values.frontend.domain_name }}
+      secretName: domain-name-secret
   rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: {{ .Values.frontend.name }}
-            port:
-              number: 80
+   - host: {{ .Values.frontend.domain_name }}
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Values.frontend.name }}
+              port:
+                number: 80
+
 {{- if .Values.networkPolicies.create }}
 ---
 apiVersion: networking.k8s.io/v1
