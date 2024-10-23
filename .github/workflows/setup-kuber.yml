@@ -24,6 +24,8 @@ jobs:
       - name: Check external cluster ip
         run: kubectl get svc
   install-cert-manager:
+    needs: [install-ingress-controller]
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
