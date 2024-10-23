@@ -70,7 +70,7 @@ jobs:
           kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.1.0" | kubectl apply -f -; }
   notify-success:
     runs-on: ubuntu-latest    
-    needs: [install-ingress-controller,install-istio]
+    needs: [install-ingress-controller,install-istio,install-cert-manager]
     if: ${{ success() }}    
     steps:
     - name: send telegram message on push
@@ -82,7 +82,7 @@ jobs:
           Успешно установлен nginx ingress controller и istio в kubernetes".
   notify-failure:
     runs-on: ubuntu-latest
-    needs: [install-ingress-controller,install-istio]  
+    needs: [install-ingress-controller,install-istio,install-cert-manager]  
     if: ${{  failure() }}
     steps:
       - name: send telegram message on push        
