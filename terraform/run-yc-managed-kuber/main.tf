@@ -39,7 +39,7 @@ resource "yandex_vpc_network" "app-network" {
 #Создайте подсети в зонах доступности, где будут созданы кластер Managed Service for Kubernetes и группа узлов.
 resource "yandex_vpc_subnet" "app-subnet-a" {
   name           = "kuber-subnet-a"
-  v4_cidr_blocks = ["10.0.0.0/16"]
+  v4_cidr_blocks = ["10.0.0.0/26"]
   zone           = "ru-central1-a"
   folder_id      = "${var.folder_id}"
   network_id     = yandex_vpc_network.app-network.id
@@ -71,7 +71,7 @@ resource "yandex_kubernetes_cluster" "kuber_cluster" {
      zone      = yandex_vpc_subnet.app-subnet-a.zone
      subnet_id = yandex_vpc_subnet.app-subnet-a.id
    }
-   
+
    security_group_ids = [
       yandex_vpc_security_group.k8s-main-sg.id,
       yandex_vpc_security_group.k8s-master-whitelist.id
