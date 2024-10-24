@@ -2,6 +2,7 @@ resource "yandex_vpc_security_group" "k8s-main-sg" {
   name        = "k8s-main-sg"
   description = "Правила группы обеспечивают базовую работоспособность кластера."
   network_id  = yandex_vpc_network.app-network.id
+  folder_id = var.folder_id
   ingress {
     protocol          = "TCP"
     description       = "Правило разрешает проверки доступности с диапазона адресов балансировщика нагрузки. Нужно для работы отказоустойчивого кластера и сервисов балансировщика."
@@ -41,7 +42,7 @@ resource "yandex_vpc_security_group" "k8s-public-services" {
   name        = "k8s-public-services"
   description = "Правила группы разрешают подключение к сервисам из интернета. Примените правила только для групп узлов."
   network_id  = yandex_vpc_network.app-network.id
-
+  folder_id = var.folder_id
   ingress {
     protocol       = "TCP"
     description    = "Правило разрешает входящий трафик из интернета на диапазон портов NodePort. Добавьте или измените порты на нужные вам."
@@ -55,7 +56,7 @@ resource "yandex_vpc_security_group" "k8s-nodes-ssh-access" {
   name        = "k8s-nodes-ssh-access"
   description = "Правила группы разрешают подключение к узлам кластера по SSH. Примените правила только для групп узлов."
   network_id  = yandex_vpc_network.app-network.id
-
+  folder_id = var.folder_id
   ingress {
     protocol       = "TCP"
     description    = "Правило разрешает подключение к узлам по SSH с указанных IP-адресов."
@@ -68,7 +69,7 @@ resource "yandex_vpc_security_group" "k8s-master-whitelist" {
   name        = "k8s-master-whitelist"
   description = "Правила группы разрешают доступ к API Kubernetes из интернета. Примените правила только к кластеру."
   network_id  = yandex_vpc_network.app-network.id
-
+  folder_id = var.folder_id
   ingress {
     protocol       = "TCP"
     description    = "Правило разрешает подключение к API Kubernetes через порт 6443 из указанной сети."
