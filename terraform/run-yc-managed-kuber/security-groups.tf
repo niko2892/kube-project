@@ -47,8 +47,8 @@ resource "yandex_vpc_security_group" "k8s-public-services" {
     protocol       = "TCP"
     description    = "Правило разрешает входящий трафик из интернета на диапазон портов NodePort. Добавьте или измените порты на нужные вам."
     v4_cidr_blocks = ["0.0.0.0/0"]
-    from_port      = 30000
-    to_port        = 32767
+    from_port      = 0
+    to_port        = 65535
   }
 }
 
