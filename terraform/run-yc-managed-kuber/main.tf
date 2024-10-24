@@ -72,10 +72,10 @@ resource "yandex_kubernetes_cluster" "kuber_cluster" {
      subnet_id = yandex_vpc_subnet.app-subnet-a.id
    }
 
-   security_group_ids = [
-      yandex_vpc_security_group.k8s-main-sg.id,
-      yandex_vpc_security_group.k8s-master-whitelist.id
-    ]
+  #  security_group_ids = [
+  #     yandex_vpc_security_group.k8s-main-sg.id,
+  #     yandex_vpc_security_group.k8s-master-whitelist.id
+  #   ]
  }
  service_account_id      = yandex_iam_service_account.sa.id
  node_service_account_id = yandex_iam_service_account.sa.id
@@ -94,11 +94,11 @@ resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
     network_interface {
       nat                = true
       subnet_ids         = [yandex_vpc_subnet.app-subnet-a.id]
-      security_group_ids = [
-        yandex_vpc_security_group.k8s-main-sg.id,
-        yandex_vpc_security_group.k8s-nodes-ssh-access.id,
-        yandex_vpc_security_group.k8s-public-services.id
-      ]
+      # security_group_ids = [
+      #   yandex_vpc_security_group.k8s-main-sg.id,
+      #   yandex_vpc_security_group.k8s-nodes-ssh-access.id,
+      #   yandex_vpc_security_group.k8s-public-services.id
+      # ]
     }
     container_runtime {
       type = "containerd"

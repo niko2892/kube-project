@@ -7,13 +7,13 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-      - kuber.studygroup.tech
-      secretName: domain-name-secret
+  #tls:
+  #  - hosts:
+  #    - xyz.studygroup.tech
+  #    secretName: domain-name-secret
   rules:
-  - host: kuber.studygroup.tech
-    http:
+  #- host: xyz.studygroup.tech
+  -  http:
       paths:
       - path: /
         pathType: Prefix
