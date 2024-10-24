@@ -6,7 +6,6 @@ resource "yandex_dns_zone" "zone1" {
     label1 = "kuber-dns"
   }
 
-  # zone    = "kuber.tech."
-  zone    = "gtneibysq.pfl."
+  zone    = "studygroup.tech."
   public  = true
 }
