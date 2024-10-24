@@ -39,11 +39,11 @@ resource "yandex_vpc_network" "app-network" {
 #Создайте подсети в зонах доступности, где будут созданы кластер Managed Service for Kubernetes и группа узлов.
 resource "yandex_vpc_subnet" "app-subnet-a" {
   name           = "kuber-subnet-a"
-  v4_cidr_blocks = ["10.0.0.0/26"]
+  v4_cidr_blocks = ["10.0.0.0/16"]
   zone           = "ru-central1-a"
   folder_id      = "${var.folder_id}"
   network_id     = yandex_vpc_network.app-network.id
-  depends_on = [yandex_vpc_network.app-network]
+  depends_on     = [yandex_vpc_network.app-network]
 }
 
 #создание сервисного аккаунта для kubernetes
@@ -71,7 +71,11 @@ resource "yandex_kubernetes_cluster" "kuber_cluster" {
      zone      = yandex_vpc_subnet.app-subnet-a.zone
      subnet_id = yandex_vpc_subnet.app-subnet-a.id
    }
-  #  security_group_ids = [yandex_vpc_security_group.k8s-public-services.id]
+   
+   security_group_ids = [
+      yandex_vpc_security_group.k8s-main-sg.id,
+      yandex_vpc_security_group.k8s-master-whitelist.id
+    ]
  }
  service_account_id      = yandex_iam_service_account.sa.id
  node_service_account_id = yandex_iam_service_account.sa.id
@@ -88,8 +92,13 @@ resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
     platform_id = "standard-v1"
     network_acceleration_type = "standard"
     network_interface {
-      subnet_ids         = [yandex_vpc_subnet.app-subnet-a.id]
       nat                = true
+      subnet_ids         = [yandex_vpc_subnet.app-subnet-a.id]
+      security_group_ids = [
+        yandex_vpc_security_group.k8s-main-sg.id,
+        yandex_vpc_security_group.k8s-nodes-ssh-access.id,
+        yandex_vpc_security_group.k8s-public-services.id
+      ]
     }
     container_runtime {
       type = "containerd"

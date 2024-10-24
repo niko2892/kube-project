@@ -2,3 +2,4 @@ ca.pem
 sa.yaml
 test.kubeconfig
 onlineboutique
+s3.ini
