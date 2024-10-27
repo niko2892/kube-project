@@ -1,0 +1,31 @@
+name: Create Yandex Cloud SA For s3
+on:
+  workflow_dispatch:
+
+jobs:
+  create-folder:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: /home/runner/work/kube-project/kube-project/terraform/create-sa
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Run Terraform init
+        run: terraform init
+
+      - name: Run Terraform plan
+        run: terraform plan -var="token=${{ secrets.TOKEN }}" -var="cloud_id=${{ secrets.CLOUD_ID }}" -var="cloud_catalog_title=${{ vars.CLOUD_CATALOG_TITLE }}" -var="zone=${{ vars.ZONE }}" -out=tfplan
+
+      - name: Run Terraform validate
+        run: terraform validate
+
+      - name: Apply Terraform plan
+        run: terraform apply "tfplan"
+        
+      - name: Output Terraform state
+        run: terraform show -json > terraform.json
