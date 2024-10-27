@@ -37,6 +37,8 @@ spec:
     matchLabels:
       app: {{ .Values.cartService.name }}
   template:
+    nodeSelector: 
+        {{ .Values.cartService.nodeSelector }}
     metadata:
       {{- if .Values.cartDatabase.externalRedisTlsOrigination.enable }}
       annotations:

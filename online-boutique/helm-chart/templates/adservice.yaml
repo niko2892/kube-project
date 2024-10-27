@@ -43,6 +43,8 @@ spec:
       labels:
         app: {{ .Values.adService.name }}
     spec:
+      nodeSelector: 
+        {{ .Values.adService.nodeSelector }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.adService.name }}
       {{- else }}

@@ -70,6 +70,8 @@ adService:
     limits:
       cpu: 300m
       memory: 300Mi
+  nodeSelector:
+    kind: worker
 
 cartService:
   create: true
@@ -81,6 +83,8 @@ cartService:
     limits:
       cpu: 300m
       memory: 128Mi
+  nodeSelector:
+    kind: worker
 
 checkoutService:
   create: true
@@ -92,6 +96,8 @@ checkoutService:
     limits:
       cpu: 200m
       memory: 128Mi
+  nodeSelector:
+    kind: worker
 
 currencyService:
   create: true
@@ -103,6 +109,8 @@ currencyService:
     limits:
       cpu: 200m
       memory: 128Mi
+  nodeSelector:
+    kind: worker
 
 emailService:
   create: true
@@ -114,6 +122,8 @@ emailService:
     limits:
       cpu: 200m
       memory: 128Mi
+  nodeSelector:
+    kind: worker
 
 frontend:
   create: true
@@ -140,6 +150,8 @@ frontend:
     limits:
       cpu: 200m
       memory: 128Mi
+  nodeSelector:
+    kind: worker
 
 loadGenerator:
   create: true
@@ -152,6 +164,8 @@ loadGenerator:
     limits:
       cpu: 500m
       memory: 512Mi
+  nodeSelector:
+    kind: worker
 
 paymentService:
   create: true
@@ -163,6 +177,8 @@ paymentService:
     limits:
       cpu: 200m
       memory: 128Mi
+  nodeSelector:
+    kind: worker
 
 productCatalogService:
   create: true
@@ -176,6 +192,8 @@ productCatalogService:
     limits:
       cpu: 200m
       memory: 128Mi
+  nodeSelector:
+    kind: worker
 
 recommendationService:
   create: true
@@ -187,6 +205,8 @@ recommendationService:
     limits:
       cpu: 200m
       memory: 450Mi
+  nodeSelector:
+    kind: worker
 
 shippingService:
   create: true
@@ -198,6 +218,8 @@ shippingService:
     limits:
       cpu: 200m
       memory: 128Mi
+  nodeSelector:
+    kind: worker
 
 cartDatabase:
   # Specifies the type of the cartservice's database, could be either redis or spanner.

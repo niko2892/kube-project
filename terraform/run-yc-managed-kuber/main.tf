@@ -159,6 +159,7 @@ resource "yandex_kubernetes_node_group" "kuber_cluster_infra" {
   node_labels = {
     kind = "infra"
   }
+  node_taints = ["kind=infra:NoSchedule"]
 }
 
 output "kuber_cluster_external_v4_endpoint" {
