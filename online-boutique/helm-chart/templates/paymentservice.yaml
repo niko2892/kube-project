@@ -43,8 +43,10 @@ spec:
       labels:
         app: {{ .Values.paymentService.name }}
     spec:
-      nodeSelector: 
-        {{ .Values.paymentService.nodeSelector }}
+      nodeSelector:
+      {{- if .Values.paymentService.nodeSelector }}
+        {{- toYaml .Values.paymentService.nodeSelector }}
+      {{- end }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.paymentService.name }}
       {{- else }}

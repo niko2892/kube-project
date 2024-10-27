@@ -44,7 +44,9 @@ spec:
         app: {{ .Values.emailService.name }}
     spec:
       nodeSelector: 
-        {{ .Values.emailService.nodeSelector }}
+      {{- if .Values.emailService.nodeSelector }}
+        {{- toYaml .Values.emailService.nodeSelector }}
+      {{- end }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.emailService.name }}
       {{- else }}

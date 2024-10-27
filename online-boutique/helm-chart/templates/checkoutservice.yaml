@@ -43,8 +43,10 @@ spec:
       labels:
         app: {{ .Values.checkoutService.name }}
     spec:
-      nodeSelector: 
-        {{ .Values.checkoutService.nodeSelector }}
+      nodeSelector:
+      {{- if .Values.checkoutService.nodeSelector }}
+        {{- toYaml .Values.checkoutService.nodeSelector }}
+      {{- end }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.checkoutService.name }}
       {{- else }}

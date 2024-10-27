@@ -43,8 +43,10 @@ spec:
       labels:
         app: {{ .Values.productCatalogService.name }}
     spec:
-      nodeSelector: 
-        {{ .Values.serviceAccounts.nodeSelector }}
+      nodeSelector:
+      {{- if .Values.serviceAccounts.nodeSelector }}
+        {{- toYaml .Values.serviceAccounts.nodeSelector }}
+      {{- end }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.productCatalogService.name }}
       {{- else }}

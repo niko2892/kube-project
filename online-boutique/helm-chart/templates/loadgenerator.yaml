@@ -46,8 +46,10 @@ spec:
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
-      nodeSelector: 
-        {{ .Values.loadGenerator.nodeSelector }}
+      nodeSelector:
+      {{- if .Values.loadGenerator.nodeSelector }}
+        {{- toYaml .Values.loadGenerator.nodeSelector }}
+      {{- end }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.loadGenerator.name }}
       {{- else }}

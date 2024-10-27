@@ -37,8 +37,6 @@ spec:
     matchLabels:
       app: {{ .Values.cartService.name }}
   template:
-    nodeSelector: 
-        {{ .Values.cartService.nodeSelector }}
     metadata:
       {{- if .Values.cartDatabase.externalRedisTlsOrigination.enable }}
       annotations:
@@ -49,6 +47,10 @@ spec:
       labels:
         app: {{ .Values.cartService.name }}
     spec:
+      nodeSelector:
+      {{- if .Values.cartService.nodeSelector }}
+        {{- toYaml .Values.cartService.nodeSelector }}
+      {{- end }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.cartService.name }}
       {{- else }}

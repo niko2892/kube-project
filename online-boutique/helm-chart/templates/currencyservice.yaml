@@ -43,8 +43,10 @@ spec:
       labels:
         app: {{ .Values.currencyService.name }}
     spec:
-      nodeSelector: 
-        {{ .Values.currencyService.nodeSelector }}
+      nodeSelector:
+      {{- if .Values.currencyService.nodeSelector }}
+        {{- toYaml .Values.currencyService.nodeSelector }}
+      {{- end }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.currencyService.name }}
       {{- else }}

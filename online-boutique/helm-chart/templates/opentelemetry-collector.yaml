@@ -42,8 +42,10 @@ spec:
       labels:
         app: {{ .Values.opentelemetryCollector.name }}
     spec:
-      nodeSelector: 
-        {{ .Values.opentelemetryCollector.nodeSelector }}
+      nodeSelector:
+      {{- if .Values.opentelemetryCollector.nodeSelector }}
+        {{- toYaml .Values.opentelemetryCollector.nodeSelector }}
+      {{- end }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.opentelemetryCollector.name }}
       {{- else }}
