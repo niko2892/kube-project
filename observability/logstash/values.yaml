@@ -49,9 +49,9 @@ extraEnvs: []
 #    value: the_value_goes_here
 
 # Allows you to load environment variables from kubernetes secret or config map
-envFrom:
-- secretRef:
-    name: opensearch-cluster-http-cert
+envFrom: []
+# - secretRef:
+    # name: opensearch-cluster-http-cert
 # - configMapRef:
 #     name: config-map
 
