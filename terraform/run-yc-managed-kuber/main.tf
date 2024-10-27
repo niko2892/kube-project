@@ -123,7 +123,7 @@ resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
   }
 }
 
-resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
+resource "yandex_kubernetes_node_group" "kuber_cluster_infra" {
   cluster_id = yandex_kubernetes_cluster.kuber_cluster.id
   name       = "workers"
   instance_template {
