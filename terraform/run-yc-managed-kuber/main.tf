@@ -118,6 +118,47 @@ resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
       size = 3
     }
   }
+  node_labels = {
+    kind = "worker"
+  }
+}
+
+resource "yandex_kubernetes_node_group" "kuber_cluster_workers" {
+  cluster_id = yandex_kubernetes_cluster.kuber_cluster.id
+  name       = "workers"
+  instance_template {
+    platform_id = "standard-v1"
+    network_acceleration_type = "standard"
+    network_interface {
+      nat                = true
+      subnet_ids         = [yandex_vpc_subnet.app-subnet-a.id]
+      security_group_ids = [
+        yandex_vpc_security_group.k8s-main-sg.id,
+        yandex_vpc_security_group.k8s-nodes-ssh-access.id,
+        yandex_vpc_security_group.k8s-public-services.id
+      ]
+    }
+    container_runtime {
+      type = "containerd"
+    }
+    resources {
+      cores         = 4
+      core_fraction = 5
+      memory        = 8
+    }
+    boot_disk {
+      size = 32
+      type = "network-hdd"
+    }
+  }
+  scale_policy {
+    fixed_scale {
+      size = 1
+    }
+  }
+  node_labels = {
+    kind = "infra"
+  }
 }
 
 output "kuber_cluster_external_v4_endpoint" {
