@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  create-folder:
+  create-sa:
     runs-on: ubuntu-latest
     defaults:
       run:
