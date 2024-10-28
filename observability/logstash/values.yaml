@@ -40,20 +40,37 @@ logstashPipeline:
         } 
         if [log] and ![message] { 
           mutate { 
-          rename => { 
-            "[log]" => "[message]" 
+            rename => { 
+              "[log]" => "[message]" 
+            } 
           } 
-          } 
+        }
+
+        if [kubernetes][container_name] in ["controller"] {
+          grok {
+            match => { "message" => ["%{IPORHOST:ip} - %{DATA:user_name} \[%{HTTPDATE:time}\] \"%{WORD:http_method} %{DATA:url} HTTP/%{NUMBER:http_version}\" %{NUMBER:response_code} %{NUMBER:body_sent_bytes} \"%{DATA:referrer}\" \"%{DATA:user_agent}\" %{INT:response_time_ms} %{NUMBER:duration} \[%{DATA:service_name}\] \[%{DATA:tags}\] %{IP:server_ip}\:%{INT:server_port} %{INT:bytes_received} %{NUMBER:duration2} %{INT:http_status_code2} %{WORD:request_id}"]}
+          }
         }
       }
       output {
-        opensearch {
-          hosts => ["http://opensearch-cluster-master:9200"]
-          index => "apps-logs-%{+YYYY.MM.dd}"
-          user => "admin"
-          password => "admin"
-          ssl => false
-          ssl_certificate_verification => false
+        if [kubernetes][container_name] in ["controller"] {
+          opensearch {
+            hosts => ["http://opensearch-cluster-master:9200"]
+            index => "nginx-logs-%{+YYYY.MM.dd}"
+            user => "admin"
+            password => "admin"
+            ssl => false
+            ssl_certificate_verification => false
+          }
+        } else {
+          opensearch {
+            hosts => ["http://opensearch-cluster-master:9200"]
+            index => "apps-logs-%{+YYYY.MM.dd}"
+            user => "admin"
+            password => "admin"
+            ssl => false
+            ssl_certificate_verification => false
+          }
         }
       }
 

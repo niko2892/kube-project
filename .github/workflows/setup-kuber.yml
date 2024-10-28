@@ -83,7 +83,7 @@ jobs:
     needs: [install-ingress-controller,install-istio,install-cert-manager]  
     if: ${{  failure() }}
     steps:
-      - name: send telegram message on push        
+      - name: send telegram message on push
         uses: appleboy/telegram-action@master
         with:          
           to: ${{ secrets.TELEGRAM_TO }}
