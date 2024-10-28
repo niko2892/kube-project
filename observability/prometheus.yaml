@@ -33,7 +33,18 @@ metadata:
 data:
   allow-snippet-annotations: "false"
   alerting_rules.yml: |
-    {}
+    groups:
+    - name: custom_rules
+      rules:
+        - alert: InstanceDown
+          expr: up == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Instance [{{ $labels.instance }}] down"
+            description: "[{{ $labels.instance }}] of job [{{ $labels.job }}] ({{ $labels.app }}) has been down for more than 1 minute."
+
   alerts: |
     {}
   prometheus.yml: |
@@ -41,6 +52,10 @@ data:
       evaluation_interval: 1m
       scrape_interval: 15s
       scrape_timeout: 10s
+    alerting:
+      alertmanagers:
+        - static_configs:
+          - targets: ['alertmanager:9093']
     rule_files:
     - /etc/config/recording_rules.yml
     - /etc/config/alerting_rules.yml

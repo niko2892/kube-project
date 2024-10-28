@@ -12,3 +12,6 @@ helm -n logging upgrade --install fluent-bit fluent/fluent-bit -f observability/
 helm -n logging upgrade --install logstash observability/logstash/ --create-namespace
 helm -n logging upgrade --install opensearch opensearch/opensearch --create-namespace -f observability/opensearch.yml
 helm -n logging upgrade --install opensearch-dashboards opensearch/opensearch-dashboards --create-namespace -f observability/opensearch-dashboard.yml
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm -n logging upgrade --install alertmanager prometheus-community/alertmanager --create-namespace -f observability/alertmanager.yml
