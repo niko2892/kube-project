@@ -8,7 +8,7 @@
 7) установка nginx ingress controller и istio в кластер: 
 8) сборка ,пуш и деплой приложений в кубер кластер. Перед сборкой выполняется проверка кодовой базы линтером (шаг не обязательный, нужен просто для демонстрации)
 9) логирование:
-helm -n logging upgrade --install fluent-bit fluent/fluent-bit -f .\observability\fluent-bit.yml --create-namespace
+helm -n logging upgrade --install fluent-bit fluent/fluent-bit -f observability/fluent-bit.yml --create-namespace
 helm -n logging upgrade --install logstash observability/logstash/ --create-namespace
 helm -n logging upgrade --install opensearch opensearch/opensearch --create-namespace -f observability/opensearch.yml
 helm -n logging upgrade --install opensearch-dashboards opensearch/opensearch-dashboards --create-namespace -f observability/opensearch-dashboard.yml
