@@ -23,6 +23,28 @@ logstashPipeline:
         mutate {
           remove_field => [ "[kubernetes][labels]", "[kubernetes][annotations]" ]
         }
+
+        if [msg] and ![message] { 
+          mutate { 
+          rename => { 
+            "[msg]" => "[message]" 
+          } 
+          } 
+        } 
+        if [MESSAGE] and ![message] { 
+          mutate { 
+          rename => { 
+            "[MESSAGE]" => "[message]" 
+          } 
+          } 
+        } 
+        if [log] and ![message] { 
+          mutate { 
+          rename => { 
+            "[log]" => "[message]" 
+          } 
+          } 
+        }
       }
       output {
         opensearch {
