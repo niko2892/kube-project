@@ -142,9 +142,9 @@ resource "yandex_kubernetes_node_group" "kuber_cluster_infra" {
       type = "containerd"
     }
     resources {
-      cores         = 4
+      cores         = 8
       core_fraction = 5
-      memory        = 8
+      memory        = 16
     }
     boot_disk {
       size = 32
